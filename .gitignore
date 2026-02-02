@@ -1,0 +1,26 @@
+# Go build artifacts
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Go workspace (rare but safe)
+go.work
+go.work.sum
+
+# Logs
+*.log
+
+# VS Code (keep launch.json if you want; otherwise ignore the whole folder)
+.vscode/
+!.vscode/launch.json
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Env files (don’t commit secrets)
+.env
+.env.*
