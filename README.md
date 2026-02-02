@@ -3,8 +3,6 @@
 A simple **Go REST API** for managing users, backed by **PostgreSQL running in Docker**.  
 The API runs locally on your machine and can be tested using **Postman** or `curl`.
 
-This project is intentionally kept **simple and beginner-friendly**, while following a clean, modular structure.
-
 ---
 
 ## Tech Stack
