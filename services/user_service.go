@@ -31,10 +31,16 @@ func (s *UserService) CreateUser(ctx context.Context, req models.CreateUserReque
 
 	var u models.User
 	err := s.DB.QueryRowContext(cctx, `
-		INSERT INTO users (name, email)
-		VALUES ($1, $2)
-		RETURNING id, name, email, created_at
-	`, req.Name, req.Email).Scan(&u.ID, &u.Name, &u.Email, &u.CreatedAt)
+				INSERT INTO users (name, email)
+				VALUES ($1, $2)
+				RETURNING id, name, email, created_at, updated_at
+			`, req.Name, req.Email).Scan(
+		&u.ID,
+		&u.Name,
+		&u.Email,
+		&u.CreatedAt,
+		&u.UpdatedAt,
+	)
 
 	if err != nil {
 		if isDuplicate(err) {
@@ -50,7 +56,7 @@ func (s *UserService) ListUsers(ctx context.Context) ([]models.User, error) {
 	defer cancel()
 
 	rows, err := s.DB.QueryContext(cctx, `
-		SELECT id, name, email, created_at
+		SELECT id, name, email, created_at, updated_at
 		FROM users
 		ORDER BY id ASC
 	`)
@@ -62,7 +68,7 @@ func (s *UserService) ListUsers(ctx context.Context) ([]models.User, error) {
 	var users []models.User
 	for rows.Next() {
 		var u models.User
-		if err := rows.Scan(&u.ID, &u.Name, &u.Email, &u.CreatedAt); err != nil {
+		if err := rows.Scan(&u.ID, &u.Name, &u.Email, &u.CreatedAt, &u.UpdatedAt); err != nil {
 			return nil, err
 		}
 		users = append(users, u)
